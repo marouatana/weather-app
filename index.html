@@ -119,18 +119,18 @@
 							var fahr=(temperature*1.8000)+32;
 							$(".ville-pays").text(ville+", "+pays);
 							$(".temperature").text(temperature+"°");
-							$(".unite").text("C");
+							$(".unite").text("°C");
 							$(".main").text(etat);
 							$(".logo").append('<img src='+icone+'>');
-							$("label").click(function(){ 
-										if ($(".unite").text()==="C"){
-											$(".temperature").text(fahr+"°");
-											$(".unite").text("F");
-										}
-										else if (($(".unite").text()==="F")) {
-											$(".temperature").text(temperature+"°");
-											$(".unite").text("C");
-										}
+							$("input").click(function(){ 
+								if ($(".unite").text() === "°C"){
+									$(".temperature").text(fahr);
+									$(".unite").text("°F");
+								}
+								else {
+									$(".temperature").text(temperature);
+									$(".unite").text("°C");
+								}
 							})
 						}
 					});
