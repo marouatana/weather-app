@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>weather application</title>
+</head>
+<body>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	crossorigin="anonymous"></script>
+	<h1 class="blanc middle"> Go My C{>}de</h1>
+	<h2 class="blanc middle">Weather App</h2>
+	<p class="ville-pays blanc middle"></p>
+	<p class="temp-container"> <span class="temperature blanc middle"></span>
+	<span class="unite bleue"></span>
+	</p>
+	<label class="switch">
+  	<input type="checkbox">
+  	<span class="slider round"></span>
+	</label>
+	<p class="main middle blanc"></p>
+	<div class="logo"></div>
+	<style>
+		body {
+			background-color: black;
+		}
+		.blanc { color:white;
+		}
+		.middle{
+			text-align: center;
+		}
+		h1 { font-size: 85px;
+
+		}
+		h2 {
+			font-size:60px;
+		}
+		.temp-container{
+			text-align: center;
+		}
+		.bleue {
+			color:blue;
+		}
+		.ville-pays, .main, .temperature, .unite{
+			font-size: 35px;
+		}
+		.logo {
+			width:60px;
+			margin: 0 auto;
+			border-radius: 50%;
+		}
+		.switch {
+  			position: relative;
+  			display: block;
+  			margin: 0 auto;
+  			width: 60px;
+  			height: 34px;
+		}
+		.switch input {display:none;}
+		.slider {
+  			position: absolute;
+  			cursor: pointer;
+  			top: 0;
+  			left: 0;
+  			right: 0;
+  			bottom: 0;
+  			background-color: #ccc;
+  			-webkit-transition: .4s;
+  			transition: .4s;
+		}
+
+		.slider:before {
+  			position: absolute;
+  			content: "";
+  			height: 26px;
+  			width: 26px;
+  			left: 4px;
+  			bottom: 4px;
+ 		 	background-color: white;
+  			-webkit-transition: .4s;
+  			transition: .4s;
+		}
+		input:checked + .slider {
+  			background-color: #2196F3;
+		}
+		input:focus + .slider {
+  			box-shadow: 0 0 1px #2196F3;
+		}
+		input:checked + .slider:before {
+  			-webkit-transform: translateX(26px);
+  			-ms-transform: translateX(26px);
+  			transform: translateX(26px);
+		}
+		.slider.round {
+  			border-radius: 34px;
+		}
+		.slider.round:before {
+  			border-radius: 50%;
+		}
+	
+	</style>
+	<script>
+		var lat;
+		var long;
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				lat = position.coords.latitude;
+				long = position.coords.longitude;
+					// getWeather(lat, long);
+					$.ajax({
+						url:"https://fcc-weather-api.glitch.me/api/current?lat="+lat+"&lon="+long,
+						type:"GET",
+						success : function(data) {
+							var temperature=data.main.temp;
+							var ville=data.name;
+							var pays=data.sys.country;
+							var etat=data.weather[0].main;
+							var icone=data.weather[0].icon;
+							var fahr=(temperature*1.8000)+32;
+							$(".ville-pays").text(ville+", "+pays);
+							$(".temperature").text(temperature+"°");
+							$(".unite").text("C");
+							$(".main").text(etat);
+							$(".logo").append('<img src='+icone+'>');
+							$("label").click(function(){ 
+										if ($(".unite").text()==="C"){
+											$(".temperature").text(fahr+"°");
+											$(".unite").text("F");
+										}
+										else if (($(".unite").text()==="F")) {
+											$(".temperature").text(temperature+"°");
+											$(".unite").text("C");
+										}
+							})
+						}
+					});
+				});
+
+		}
+		
+		
+
+	</script>
+</body>
+</html>
