@@ -10,10 +10,12 @@
 	crossorigin="anonymous"></script>
 	<h1 class="blanc middle"> Go My C{>}de</h1>
 	<h2 class="blanc middle">Weather App</h2>
-	<p class="ville-pays blanc middle"></p>
-	<p class="temp-container"> <span class="temperature blanc middle"></span>
-	<span class="unite bleue"></span>
-	</p>
+	<div class="container">
+		<p class="ville-pays blanc middle"></p>
+		<p class="temp-container"> <span class="temperature blanc middle"></span>
+		<span class="unite bleue"></span>
+		</p>
+	</div>
 	<label class="switch">
   	<input type="checkbox">
   	<span class="slider round"></span>
@@ -97,6 +99,10 @@
 		.slider.round:before {
   			border-radius: 50%;
 		}
+		.spinner { 
+			display: block;
+			margin: 0 auto;
+		}
 	
 	</style>
 	<script>
@@ -110,6 +116,14 @@
 					$.ajax({
 						url:"https://fcc-weather-api.glitch.me/api/current?lat="+lat+"&lon="+long,
 						type:"GET",
+						beforeSend : function(){
+							$(".container").append('<img class = "spinner" src="126.gif">');
+							$(".switch").hide();
+						},
+						complete : function () {
+							$(".spinner").remove();
+							$(".switch").show();
+						},
 						success : function(data) {
 							var temperature=data.main.temp;
 							var ville=data.name;
